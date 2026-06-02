@@ -18,6 +18,12 @@ Desktop.ini
 .env.local
 .env.*.local
 
+# Credentials — NEVER commit tokens/keys
+Token KEY.txt
+*token*
+*secret*
+*credential*
+
 # Logs
 *.log
 npm-debug.log*
