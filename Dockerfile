@@ -19,8 +19,8 @@ FROM nginx:alpine
 # Copy built files from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Replace ENTIRE nginx config (not just conf.d/default.conf)
-COPY nginx.conf /etc/nginx/nginx.conf
+# Custom nginx config for SPA routing (replaces default.conf, keeps main nginx.conf intact)
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 7860
 
