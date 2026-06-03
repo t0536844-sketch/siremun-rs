@@ -13,15 +13,15 @@ RUN npm run build
 # Verify build output exists
 RUN ls -la /app/dist && test -f /app/dist/index.html
 
-# Stage 2: Serve with serve (simple, reliable static server)
-FROM node:20-alpine
-
-RUN npm install -g serve@latest
+# Stage 2: Serve with nginx
+FROM nginx:alpine
 
 # Copy built files from builder stage
-COPY --from=builder /app/dist /app/dist
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Replace ENTIRE nginx config (not just conf.d/default.conf)
+COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 7860
 
-# serve with SPA fallback (-s) on port 7860 (-l)
-CMD ["serve", "-s", "/app/dist", "-l", "7860"]
+CMD ["nginx", "-g", "daemon off;"]
